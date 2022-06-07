@@ -45,6 +45,26 @@ class DBHelper (context: Context): SQLiteOpenHelper(context, "kampus", null, 1){
 
     }
 
+    fun ubah (kode: String): Boolean {
+        val db = writableDatabase
+        val cv = ContentValues()
+        with(cv){
+            put("nm_matkul", nmMatkul)
+            put("sks", sks)
+            put("sifat", sifat)
+
+        }
+        val cmd  = db.update(tabel,cv, "kd_matkul= ?", arrayOf(kode))
+        db.close()
+        return cmd != -1
+    }
+
+    fun hapus (kode:String): Boolean{
+        val db = writableDatabase
+        val cmd = db.delete(tabel, "kd_matkul=?", arrayOf(kode))
+        return  cmd != -1
+    }
+
     fun tampil(): Cursor {
         val db = writableDatabase
         val reader = db.rawQuery("select * from $tabel", null)

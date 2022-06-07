@@ -1,6 +1,7 @@
 package com.example.aplikasisqlitetri
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.*
 import android.icu.text.LocaleDisplayNames
 import android.view.*
@@ -31,6 +32,46 @@ class AdapterMataKuliah  (
         val listItem = customListItem[position]
         holder.tvNmMatkul!!.setText(listItem.nmMatkul)
         holder.tvKdMatKul!!.setText(listItem.kdMatkul)
+
+        holder.btnEdit!!.setOnClickListener{
+            val i = Intent(context, EntryActivity::class.java)
+            i.putExtra("kode", listItem.kdMatkul)
+            i.putExtra("nama", listItem.nmMatkul)
+            i.putExtra("sks", listItem.sks)
+            i.putExtra("sifat", listItem.sifat)
+            context.startActivity(i)
+        }
+
+        holder.btnHapus!!.setOnClickListener{
+            val db = DBHelper(context)
+            val alb = AlertDialog.Builder(context)
+            val kode = holder.tvKdMatKul!!.text
+            val nama = holder.tvNmMatkul!!.text
+            with (alb){
+                setTitle("Konfirmasi Penghapusan")
+                setCancelable(false)
+                setMessage(""" Apakah Anda Yakin akan menghapus data ini??
+                    |
+                    |$nama[$kode]
+                    |
+                """.trimIndent())
+                setPositiveButton("Ya") {_, _->
+                    if (db.hapus("$kode"))
+                        Toast   .makeText(
+                            context,
+                            "Data mata kuliah berhasil dihapus",
+                            Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(
+                            context,
+                            "Data mata kuliah gagal dihapus",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                }
+                setNegativeButton("Tidak", null)
+                create().show()
+            }
+        }
 
         return listLayout!!
     }

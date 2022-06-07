@@ -51,7 +51,7 @@ class EntryActivity : AppCompatActivity() {
                 db.sks = spnSks.selectedItem as Int
 
                 db.sifat = if (rdWajib.isChecked) "Wajib" else "Pilihan"
-                if (db.simpan()) {
+                if (if(!modeEdit)db.simpan() else db.ubah("${etKdMataKuliah.text}")) {
                     Toast.makeText(
                         this@EntryActivity,
                         "Data Mata Kuliah Berhasil Disimpan",
