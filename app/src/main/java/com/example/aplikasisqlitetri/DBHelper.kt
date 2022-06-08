@@ -17,10 +17,10 @@ class DBHelper (context: Context): SQLiteOpenHelper(context, "kampus", null, 1){
 
     override fun onCreate(db: SQLiteDatabase?) {
         sql = """create table $tabel (
-            |kd_matkul char (5) primary key,
-            |nm_matkul varchar (50) not null,
-            |sks integer not null,
-            |sifat varchar(7) not null
+            kd_matkul char (5) primary key,
+            nm_matkul varchar (50) not null,
+            sks integer not null,
+            sifat varchar(7) not null
             )
         """.trimIndent()
         db?.execSQL(sql)
@@ -43,6 +43,26 @@ class DBHelper (context: Context): SQLiteOpenHelper(context, "kampus", null, 1){
         db.close()
         return cmd != -1L
 
+    }
+
+    fun ubah (kode: String): Boolean {
+        val db = writableDatabase
+        val cv = ContentValues()
+        with(cv){
+            put("nm_matkul", nmMatkul)
+            put("sks", sks)
+            put("sifat", sifat)
+
+        }
+        val cmd  = db.update(tabel,cv, "kd_matkul= ?", arrayOf(kode))
+        db.close()
+        return cmd != -1
+    }
+
+    fun hapus (kode:String): Boolean{
+        val db = writableDatabase
+        val cmd = db.delete(tabel, "kd_matkul=?", arrayOf(kode))
+        return  cmd != -1
     }
 
     fun tampil(): Cursor {

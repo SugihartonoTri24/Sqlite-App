@@ -40,6 +40,11 @@ class MainActivity : AppCompatActivity() {
         refresh()
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) refresh()
+    }
+
     private  fun refresh() {
         val db = DBHelper(this@MainActivity)
         val data = db.tampil()

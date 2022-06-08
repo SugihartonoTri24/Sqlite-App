@@ -7,6 +7,12 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/btnTambah"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tambah Data" />
+
     <LinearLayout
         android:id="@+id/linTidakAda"
         android:layout_width="match_parent"
@@ -34,9 +40,4 @@
         android:layout_width="match_parent"
         android:layout_height="590dp" />
 
-    <Button
-        android:id="@+id/btnTambah"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tambah Data" />
 </LinearLayout>
